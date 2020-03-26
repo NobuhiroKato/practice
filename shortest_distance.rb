@@ -1,17 +1,18 @@
-def shortest_distance(s, c)
-  s_array = s.chars
-
-  s_array.each_with_index  do |_si, i|
-    hit_pos = 0
-    pos = s_array.each_with_index do |_sj, j|
-      j if _sj == c
-    end
-
-    p pos
+def shortest_dist(str, t)
+  d, ret = 1, []
+  i = str =~ Regexp.new("#{t}")
+  while c = str[i]
+    d = 0 if c == t
+    ret[i] = d
+    d += 1; i += 1
   end
+  d = 1
+  i = str =~ Regexp.new("#{t}[^#{t}]*$")
+  while i >= 0
+    d = 0 if str[i] == t
+    ret[i] = d if ret[i].nil? || (ret[i] > d)
+    d += 1; i -= 1
+  end
+  ret.inspect
 end
-
-s = 'helloworld'
-c = 'l'
-
-shortest_distance(s, c)
+puts shortest_dist 'helloworld', 'l'
